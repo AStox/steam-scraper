@@ -3,7 +3,6 @@ const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 const async = require('async');
 const Game = require('./models/game');
-const Parse = require('node-html-parser');
 require('dotenv').load();
 
 function connectToDB() {
