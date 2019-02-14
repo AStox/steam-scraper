@@ -1,7 +1,7 @@
 import ApolloClient from 'apollo-boost';
-//const ApolloClient = require('apollo-boost');
-require('dotenv').load();
-
-export default new ApolloClient({
-  uri: `http://localhost:3002/graphql`,
+const uri = `http://localhost:${process.env.REACT_APP_GQL_PORT}/graphql`;
+const client = new ApolloClient({
+  uri: uri,
 });
+
+export default client;

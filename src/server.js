@@ -5,13 +5,13 @@ const {buildSchema} = require('graphql');
 const mongoose = require('mongoose');
 const Game = require('../models/game');
 var path = require('path');
-var app = express();
 require('dotenv').load();
 
 var app = express();
 app.use(cors());
+console.log(process.env.REACT_APP_DB);
 mongoose.connect(
-  process.env.DB,
+  process.env.REACT_APP_DB,
   {useNewUrlParser: true},
 );
 
@@ -74,7 +74,7 @@ app.use(
   }),
 );
 
-const PORT = process.env.GQL_PORT || 3000;
+const PORT = process.env.REACT_APP_GQL_PORT || 3000;
 
 app.listen(PORT, () => {
   console.log('+++Express Server is Running!!!');
