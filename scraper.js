@@ -6,10 +6,11 @@ const Game = require('./models/game');
 require('dotenv').load();
 
 function connectToDB() {
-  var mongoDB = `mongodb://${process.env.DB_USER}:${
-    process.env.DB_PASS
-  }@159.203.25.23:27017/steamdb`;
-  mongoose.connect(mongoDB, {useNewUrlParser: true});
+  var mongoDB = process.env.DB;
+  mongoose.connect(
+    mongoDB,
+    {useNewUrlParser: true},
+  );
   mongoose.Promise = global.Promise;
   var db = mongoose.connection;
 
