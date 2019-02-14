@@ -31,7 +31,7 @@ export default () => (
         labels: gameLabels,
         datasets: [
           {
-            label: 'games by price',
+            label: `games by ${y}`,
             data: gameData,
             borderWidth: 0,
           },
