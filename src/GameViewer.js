@@ -24,9 +24,6 @@ export default () => (
       data.games.sort((a, b) => b[y] - a[y]);
       let gameLabels = data.games.map(game => game.name);
       let gameData = data.games.map(game => game[y]);
-      {
-        console.log(gameData);
-      }
       let chartData = {
         labels: gameLabels,
         datasets: [
