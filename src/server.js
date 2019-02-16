@@ -9,7 +9,6 @@ require('dotenv').load();
 
 var app = express();
 app.use(cors());
-console.log(process.env.REACT_APP_DB);
 mongoose.connect(
   process.env.REACT_APP_DB,
   {useNewUrlParser: true},
@@ -22,14 +21,6 @@ db.on('error', () => {
 db.once('open', () => {
   console.log('+++Connected to mongoose');
 });
-
-async function gamesList() {
-  console.log(await Game.find());
-}
-const blah = async () => {
-  console.log(await Game.find());
-};
-//gamesList();
 
 const schema = buildSchema(`
   type Query {
@@ -56,9 +47,6 @@ const schema = buildSchema(`
 const mapGame = (game, id) => game && {id, ...game};
 
 const root = {
-  // games: async () => {
-  //   await Game.find();
-  // },
   games: Game.find((err, games) => games),
   game: ({id}) => {
     Game.find({steam_id: id}, (err, game) => game);
@@ -74,12 +62,8 @@ app.use(
   }),
 );
 
-const PORT = process.env.REACT_APP_GQL_PORT || 3000;
+const PORT = process.env.REACT_APP_GQL_PORT || 3001;
 
 app.listen(PORT, () => {
   console.log('+++Express Server is Running!!!');
-});
-
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
 });
