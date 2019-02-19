@@ -5,10 +5,8 @@ import CustomDropdown from './customDropdown';
 
 class App extends Component {
   render() {
-    const choices = ['releaseDate', 'review_count', 'full_price'];
     return (
       <main>
-        <CustomDropdown choices={choices} />
         <GameViewer />
       </main>
     );
