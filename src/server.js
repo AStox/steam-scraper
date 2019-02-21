@@ -37,10 +37,23 @@ const schema = buildSchema(`
     review_count: String,
     is_free: String,
     full_price: String,
-    genre: String,
-    tag: String,
-    developer: String,
-    publisher: String,
+    genre: [Genre],
+    tag: [Tag],
+    developer: [Developer],
+    publisher: [Publisher],
+  }
+
+  type Genre {
+    name: String,
+  }
+  type Tag {
+    name: String,
+  }
+  type Developer {
+    name: String,
+  }
+  type Publisher {
+    name: String,
   }
 `);
 
