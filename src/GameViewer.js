@@ -32,6 +32,16 @@ export const GET_GAMES = gql`
 `;
 
 const GameViewer = () => {
+  const [y, setY] = useState({
+    name: 'review_count',
+    label: 'Number of Reviews',
+    sum: true,
+  });
+  const [x, setX] = useState({
+    name: 'name',
+    label: 'Games',
+  });
+
   const xChoices = [
     {
       name: 'name',
@@ -54,12 +64,10 @@ const GameViewer = () => {
     },
     {
       name: 'full_price',
-      label: 'Full Price',
+      label: x.name === 'name' ? 'Full Price' : 'Average Price',
       sum: false,
     },
   ];
-  const [y, setY] = useState(yChoices[0]);
-  const [x, setX] = useState(xChoices[0]);
 
   function handleYChange(e) {
     setY(e);
@@ -90,14 +98,36 @@ const GameViewer = () => {
   }
 
   function getValues(x, y, gamesData) {
-    let values = getXArray(x, gamesData).map(xItem =>
-      gamesData
-        .filter(game => game[x.name] === xItem)
-        .map(xItem => xItem.map(game => game[y.name]))
-        .reduce((accumulator, currentValue) => accumulator + currentValue),
-    );
-    return values;
+    let values;
+    if (x.name == 'name') {
+      values = gamesData.map(game => game[y.name]);
+      return values;
+    } else {
+      let xArray = getXArray(x, gamesData);
+      let gamesInX = xArray.map(xItem =>
+        gamesData.filter(game =>
+          game[x.name].map(gameX => gameX.name).includes(xItem),
+        ),
+      );
+      values = gamesInX.map(xItem => {
+        if (y.sum) {
+          return xItem
+            .map(game => game[y.name])
+            .reduce((acc, curr) => parseInt(acc) + parseInt(curr));
+        } else {
+          return (
+            xItem
+              .map(game => game[y.name])
+              .reduce((acc, curr) => parseInt(acc) + parseInt(curr)) /
+            xItem.length
+          );
+        }
+      });
+      return values;
+    }
+    return null;
   }
+
   return (
     <Query query={GET_GAMES}>
       {({data, loading, error}) => {
