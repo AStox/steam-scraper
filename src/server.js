@@ -3,8 +3,8 @@ const cors = require('cors');
 const graphqlHTTP = require('express-graphql');
 const {buildSchema} = require('graphql');
 const mongoose = require('mongoose');
-const Game = require('../models/game');
 const path = require('path');
+const graphPoint = require('./graphPoint');
 
 require('dotenv').load();
 
@@ -64,10 +64,9 @@ const schema = buildSchema(`
 `);
 
 const root = {
-  graphData: async ({x, y}) => {
-    let data = await Game.find();
-    data = data.map(game => ({xAxis: game[x], yAxis: game[y]}));
-    return data;
+  graphData: ({x, y}) => {
+    console.log(x);
+    return graphPoint.format(x, y);
   },
 };
 
