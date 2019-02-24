@@ -5,7 +5,7 @@ const Game = require('../models/game');
 //
 //query([uniqueGenres]) => query([uniqueGenres:[gamesInGenre]] => query(uniquegenres: sumOfGamesInGenre)
 
-exports.format = async (x, y) => {
+exports.graphPointSimple = async (x, y) => {
   let data = await Game.find();
   data = data.map(game => ({xAxis: game[x], yAxis: game[y]}));
   return data;

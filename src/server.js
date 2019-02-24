@@ -4,7 +4,7 @@ const graphqlHTTP = require('express-graphql');
 const {buildSchema} = require('graphql');
 const mongoose = require('mongoose');
 const path = require('path');
-const graphPoint = require('./graphPoint');
+const query = require('./query');
 
 require('dotenv').load();
 
@@ -64,10 +64,7 @@ const schema = buildSchema(`
 `);
 
 const root = {
-  graphData: ({x, y}) => {
-    console.log(x);
-    return graphPoint.format(x, y);
-  },
+  graphData: ({x, y}) => query.graphPointSimple(x, y),
 };
 
 app.use(
