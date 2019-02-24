@@ -128,6 +128,8 @@ const GameViewer = () => {
     return null;
   }
 
+  function sortedData(x, y, asc, gamesData) {}
+
   return (
     <Query query={GET_GAMES}>
       {({data, loading, error}) => {

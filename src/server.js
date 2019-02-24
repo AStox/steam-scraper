@@ -4,7 +4,8 @@ const graphqlHTTP = require('express-graphql');
 const {buildSchema} = require('graphql');
 const mongoose = require('mongoose');
 const Game = require('../models/game');
-var path = require('path');
+const path = require('path');
+
 require('dotenv').load();
 
 var app = express();
@@ -25,7 +26,12 @@ db.once('open', () => {
 const schema = buildSchema(`
   type Query {
     games: [Game]
-    game(id: ID!): Game
+    graphData(x: String!, y: String!): [GraphPoint]
+  }
+
+  type GraphPoint {
+    xAxis: String,
+    yAxis: Int,
   }
 
   type Game {
@@ -34,7 +40,7 @@ const schema = buildSchema(`
     name: String,
     coming_soon: String,
     release_date: String,
-    review_count: String,
+    review_count: Int,
     is_free: String,
     full_price: String,
     genre: [Genre],
@@ -42,7 +48,7 @@ const schema = buildSchema(`
     developer: [Developer],
     publisher: [Publisher],
   }
-
+  
   type Genre {
     name: String,
   }
@@ -57,12 +63,11 @@ const schema = buildSchema(`
   }
 `);
 
-const mapGame = (game, id) => game && {id, ...game};
-
 const root = {
-  games: Game.find((err, games) => games),
-  game: ({id}) => {
-    Game.find({steam_id: id}, (err, game) => game);
+  graphData: async ({x, y}) => {
+    let data = await Game.find();
+    data = data.map(game => ({xAxis: game[x], yAxis: game[y]}));
+    return data;
   },
 };
 
