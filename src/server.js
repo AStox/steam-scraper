@@ -64,7 +64,7 @@ const schema = buildSchema(`
 `);
 
 const root = {
-  graphData: ({x, y}) => query.graphPointSimple(x, y),
+  graphData: ({x, y}) => query.graphPoint(x, y),
 };
 
 app.use(
