@@ -22,13 +22,14 @@ graphPointNested = async (x, y) => {
         preserveNullAndEmptyArrays: true,
       },
     },
-    {$sort: {[`${x}.name`]: -1}},
     {
       $group: {
         _id: `$${x}.name`,
         review_count: {$sum: `$${y}`},
       },
     },
+
+    {$sort: {_id: 1}},
   ]);
   data = data.map(game => ({xAxis: game._id, yAxis: game[y]}));
   return data;

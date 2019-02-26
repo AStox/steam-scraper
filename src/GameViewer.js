@@ -4,29 +4,11 @@ import {Query} from 'react-apollo';
 import {Bar} from 'react-chartjs-2';
 import CustomDropdown from './customDropdown';
 
-export const GET_GAMES = gql`
-  query GetGames {
-    games {
-      id
-      steam_id
-      name
-      coming_soon
-      release_date
-      review_count
-      is_free
-      full_price
-      genre {
-        name
-      }
-      tag {
-        name
-      }
-      developer {
-        name
-      }
-      publisher {
-        name
-      }
+export const GET_GRAPH_DATA = gql`
+  query GetGraphData($x: String!, $y: String!) {
+    graphData(x: $x, y: $y) {
+      xAxis
+      yAxis
     }
   }
 `;
@@ -131,20 +113,16 @@ const GameViewer = () => {
   function sortedData(x, y, asc, gamesData) {}
 
   return (
-    <Query query={GET_GAMES}>
+    <Query query={GET_GRAPH_DATA} variables={(x, y)}>
       {({data, loading, error}) => {
         if (loading) return <p>LOADING</p>;
-        if (error) return <p>{error.toString()}</p>;
-        //data.games.sort((a, b) => b[y] - a[y]);
-        //let gameLabels = data.games.map(game => game.name);
-        let gameLabels = getXArray(x, data.games);
-        let gameData = getValues(x, y, data.games);
+        if (error) console.log(error);
         let chartData = {
-          labels: gameLabels,
+          labels: data.xAxis,
           datasets: [
             {
               label: `${x.label} by ${y.label}`,
-              data: gameData,
+              data: data.yAxis,
               borderWidth: 0,
             },
           ],
