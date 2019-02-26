@@ -13,44 +13,38 @@ export const GET_GRAPH_DATA = gql`
   }
 `;
 
-const GameViewer = () => {
-  const xChoices = [
-    {
-      name: 'name',
-      label: 'Games',
-    },
-    {
-      name: 'genre',
-      label: 'Genres',
-    },
-    {
-      name: 'tag',
-      label: 'Tags',
-    },
-  ];
-  const yChoices = [
-    {
-      name: 'review_count',
-      label: 'Number of Reviews',
-      sum: true,
-    },
-    {
-      name: 'full_price',
-      label: 'Full Price',
-      sum: false,
-    },
-  ];
+const xChoices = [
+  {
+    name: 'name',
+    label: 'Games',
+  },
+  {
+    name: 'genre',
+    label: 'Genres',
+  },
+  {
+    name: 'tag',
+    label: 'Tags',
+  },
+];
+const yChoices = [
+  {
+    name: 'review_count',
+    label: 'Number of Reviews',
+    sum: true,
+  },
+  {
+    name: 'full_price',
+    label: 'Full Price',
+    sum: false,
+  },
+];
 
+const GameViewer = () => {
   const [x, setX] = useState(xChoices[0]);
   const [y, setY] = useState(yChoices[0]);
-
-  function handleYChange(e) {
-    setY(e);
-  }
-
-  function handleXChange(e) {
-    setX(e);
-  }
+  const handleYChange = e => setY(e);
+  const handleXChange = e => setX(e);
 
   return (
     <Query query={GET_GRAPH_DATA} variables={{x: x.name, y: y.name}}>
