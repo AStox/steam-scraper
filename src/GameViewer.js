@@ -14,16 +14,6 @@ export const GET_GRAPH_DATA = gql`
 `;
 
 const GameViewer = () => {
-  const [y, setY] = useState({
-    name: 'review_count',
-    label: 'Number of Reviews',
-    sum: true,
-  });
-  const [x, setX] = useState({
-    name: 'name',
-    label: 'Games',
-  });
-
   const xChoices = [
     {
       name: 'name',
@@ -51,6 +41,9 @@ const GameViewer = () => {
     },
   ];
 
+  const [y, setY] = useState(xChoices[0]);
+  const [x, setX] = useState(yChoices[1]);
+
   function handleYChange(e) {
     setY(e);
   }
@@ -58,59 +51,6 @@ const GameViewer = () => {
   function handleXChange(e) {
     setX(e);
   }
-
-  function getXArray(x, gamesData) {
-    let xArray;
-    if (x.name === 'name') {
-      xArray = [...new Set(gamesData.map(game => game[x.name]))];
-    } else {
-      let allX = gamesData
-        .map(game => game[x.name].map(xItem => xItem.name))
-        .reduce((accumulator, currentValue) => {
-          accumulator = accumulator.concat(currentValue);
-          return accumulator;
-        }, []);
-      xArray = [...new Set(allX)];
-    }
-    return xArray;
-  }
-
-  function sum(accumulator, currentValue) {
-    return accumulator + currentValue;
-  }
-
-  function getValues(x, y, gamesData) {
-    let values;
-    if (x.name == 'name') {
-      values = gamesData.map(game => game[y.name]);
-      return values;
-    } else {
-      let xArray = getXArray(x, gamesData);
-      let gamesInX = xArray.map(xItem =>
-        gamesData.filter(game =>
-          game[x.name].map(gameX => gameX.name).includes(xItem),
-        ),
-      );
-      values = gamesInX.map(xItem => {
-        if (y.sum) {
-          return xItem
-            .map(game => game[y.name])
-            .reduce((acc, curr) => parseInt(acc) + parseInt(curr));
-        } else {
-          return (
-            xItem
-              .map(game => game[y.name])
-              .reduce((acc, curr) => parseInt(acc) + parseInt(curr)) /
-            xItem.length
-          );
-        }
-      });
-      return values;
-    }
-    return null;
-  }
-
-  function sortedData(x, y, asc, gamesData) {}
 
   return (
     <Query query={GET_GRAPH_DATA} variables={(x, y)}>
