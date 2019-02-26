@@ -36,13 +36,13 @@ const GameViewer = () => {
     },
     {
       name: 'full_price',
-      label: x.name === 'name' ? 'Full Price' : 'Average Price',
+      label: 'Full Price',
       sum: false,
     },
   ];
 
-  const [y, setY] = useState(xChoices[0]);
-  const [x, setX] = useState(yChoices[1]);
+  const [x, setX] = useState(xChoices[0]);
+  const [y, setY] = useState(yChoices[0]);
 
   function handleYChange(e) {
     setY(e);
@@ -53,16 +53,16 @@ const GameViewer = () => {
   }
 
   return (
-    <Query query={GET_GRAPH_DATA} variables={(x, y)}>
+    <Query query={GET_GRAPH_DATA} variables={{x: x.name, y: y.name}}>
       {({data, loading, error}) => {
         if (loading) return <p>LOADING</p>;
-        if (error) console.log(error);
+        if (error) return <p>{error.toString()}</p>;
         let chartData = {
-          labels: data.xAxis,
+          labels: data.graphData.map(datum => datum.xAxis),
           datasets: [
             {
               label: `${x.label} by ${y.label}`,
-              data: data.yAxis,
+              data: data.graphData.map(datum => datum.yAxis),
               borderWidth: 0,
             },
           ],

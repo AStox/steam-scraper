@@ -11,6 +11,7 @@ exports.graphPoint = async (x, y) => {
 graphPointSimple = async (x, y) => {
   let data = await Game.find();
   data = data.map(game => ({xAxis: game[x], yAxis: game[y]}));
+  console.log(data);
   return data;
 };
 
@@ -32,5 +33,6 @@ graphPointNested = async (x, y) => {
     {$sort: {_id: 1}},
   ]);
   data = data.map(game => ({xAxis: game._id, yAxis: game[y]}));
+  console.log(data);
   return data;
 };
