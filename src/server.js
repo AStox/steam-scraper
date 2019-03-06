@@ -1,21 +1,20 @@
 const express = require('express');
 const cors = require('cors');
 const graphqlHTTP = require('express-graphql');
-const {buildSchema} = require('graphql');
+const { buildSchema } = require('graphql');
 const mongoose = require('mongoose');
-const path = require('path');
 const query = require('./query');
 
 require('dotenv').load();
 
-var app = express();
+const app = express();
 app.use(cors());
 mongoose.connect(
   process.env.REACT_APP_DB,
-  {useNewUrlParser: true},
+  { useNewUrlParser: true },
 );
 
-var db = mongoose.connection;
+const db = mongoose.connection;
 db.on('error', () => {
   console.log('----FAILED TO CONNECT TO MONGOOSE----');
 });
@@ -64,7 +63,7 @@ const schema = buildSchema(`
 `);
 
 const root = {
-  graphData: ({x, y}) => query.graphPoint(x, y),
+  graphData: ({ x, y }) => query.graphPoint(x, y),
 };
 
 app.use(

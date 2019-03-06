@@ -1,7 +1,8 @@
 import React from 'react';
-import {Dropdown} from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import { Dropdown } from 'react-bootstrap';
 
-const CustomDropdown = props => {
+const CustomDropdown = (props) => {
   function handleChange(e) {
     props.onChange(e);
   }
@@ -24,6 +25,13 @@ const CustomDropdown = props => {
       </Dropdown.Menu>
     </Dropdown>
   );
+};
+
+
+CustomDropdown.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  text: PropTypes.string.isRequired,
+  choices: PropTypes.array.isRequired,
 };
 
 export default CustomDropdown;

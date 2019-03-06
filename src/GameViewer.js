@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import gql from 'graphql-tag';
-import {Query} from 'react-apollo';
-import {Bar} from 'react-chartjs-2';
+import { Query } from 'react-apollo';
+import { Bar } from 'react-chartjs-2';
 import CustomDropdown from './customDropdown';
 
 export const GET_GRAPH_DATA = gql`
@@ -47,11 +47,11 @@ const GameViewer = () => {
   const handleXChange = e => setX(e);
 
   return (
-    <Query query={GET_GRAPH_DATA} variables={{x: x.name, y: y.name}}>
-      {({data, loading, error}) => {
+    <Query query={ GET_GRAPH_DATA } variables={{ x: x.name, y: y.name }}>
+      {({ data, loading, error }) => {
         if (loading) return <p>LOADING</p>;
         if (error) return <p>{error.toString()}</p>;
-        let chartData = {
+        const chartData = {
           labels: data.graphData.map(datum => datum.xAxis),
           datasets: [
             {
@@ -61,7 +61,6 @@ const GameViewer = () => {
             },
           ],
         };
-        let chartOptions = {};
         return (
           <div>
             <CustomDropdown
