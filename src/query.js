@@ -18,7 +18,7 @@ const graphPointNested = async (x, y) => {
     {
       $group: {
         _id: `$${x}.name`,
-        review_count: { $sum: `$${y}` },
+        [`${y}`]: { $sum: `$${y}` },
       },
     },
 
