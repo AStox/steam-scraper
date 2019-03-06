@@ -4,6 +4,7 @@ const graphqlHTTP = require('express-graphql');
 const { buildSchema } = require('graphql');
 const mongoose = require('mongoose');
 const query = require('./query');
+const Game = require('../models/game');
 
 require('dotenv').load();
 
@@ -63,6 +64,7 @@ const schema = buildSchema(`
 `);
 
 const root = {
+  games: Game.find(),
   graphData: ({ x, y }) => query.graphPoint(x, y),
 };
 
