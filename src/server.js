@@ -26,7 +26,7 @@ db.once('open', () => {
 const schema = buildSchema(`
   type Query {
     games: [Game]
-    graphData(x: String!, y: String!): [GraphPoint]
+    graphData(x: String!, y: String!, sort: String!, order: Int!): [GraphPoint]
   }
 
   type GraphPoint {
@@ -65,7 +65,7 @@ const schema = buildSchema(`
 
 const root = {
   games: Game.find(),
-  graphData: ({ x, y }) => query.graphPoint(x, y),
+  graphData: ({ x, y, sort, order }) => query.graphPoint(x, y, sort, order),
 };
 
 app.use(

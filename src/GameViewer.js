@@ -6,8 +6,8 @@ import CustomDropdown from './customDropdown';
 import './GameViewer.css';
 
 export const GET_GRAPH_DATA = gql`
-  query GetGraphData($x: String!, $y: String!) {
-    graphData(x: $x, y: $y) {
+  query GetGraphData($x: String!, $y: String!, $sort: String!, $order: Int!) {
+    graphData(x: $x, y: $y, sort: $sort, order: $order) {
       xAxis
       yAxis
     }
@@ -40,15 +40,32 @@ const yChoices = [
     sum: false,
   },
 ];
+const sortChoices = [
+  {
+    name: 'review_count',
+    label: 'Number of Reviews',
+  },
+  {
+    name: 'name',
+    label: 'Games',
+  },
+  {
+    name: 'release_date',
+    label: 'Release Date',
+  },
+];
 
 const GameViewer = () => {
   const [x, setX] = useState(xChoices[0]);
   const [y, setY] = useState(yChoices[0]);
+  const [sort, setSort] = useState(sortChoices[0]);
+  const [order, setOrder] = useState(true);
   const handleYChange = e => setY(e);
   const handleXChange = e => setX(e);
+  const handleSortChange = e => setSort(e);
+  const handleOrderChange = e => setOrder(e);
 
   return (
-
     <React.Fragment>
       <div className="title-container">
         <span className="title title-font">Show me the </span>
@@ -64,8 +81,23 @@ const GameViewer = () => {
           onChange={handleXChange}
         />
         <br/>
+        <span className="title title-font">Sorted by </span>
+        <CustomDropdown
+          text={sort.label}
+          choices={sortChoices}
+          onChange={handleSortChange}
+        />
+        <span className="title title-font">, </span>
+        <CustomDropdown
+          text={order ? 'Descending' : 'Ascending'}
+          choices={[true, false]}
+          onChange={handleOrderChange}
+        />
       </div>
-      <Query query={ GET_GRAPH_DATA } variables={{ x: x.name, y: y.name }}>
+        <Query 
+          query={ GET_GRAPH_DATA } 
+          variables={{ x: x.name, y: y.name, sort: sort.name, order: order ? -1 : 1}}
+        >
         {({ data, loading, error }) => {
           if (loading) return <p>LOADING</p>;
           if (error) return <p>{error.toString()}</p>;
