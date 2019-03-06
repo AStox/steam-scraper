@@ -46,12 +46,22 @@ const sortChoices = [
     label: 'Number of Reviews',
   },
   {
-    name: 'name',
-    label: 'Games',
-  },
-  {
     name: 'release_date',
     label: 'Release Date',
+  },
+  {
+    name: 'full_price',
+    label: 'Full Price',
+  },
+];
+const orderChoices = [
+  {
+    name: true,
+    label: 'Desc',
+  },
+  {
+    name: false,
+    label: 'Asc',
   },
 ];
 
@@ -59,7 +69,7 @@ const GameViewer = () => {
   const [x, setX] = useState(xChoices[0]);
   const [y, setY] = useState(yChoices[0]);
   const [sort, setSort] = useState(sortChoices[0]);
-  const [order, setOrder] = useState(true);
+  const [order, setOrder] = useState(orderChoices[0]);
   const handleYChange = e => setY(e);
   const handleXChange = e => setX(e);
   const handleSortChange = e => setSort(e);
