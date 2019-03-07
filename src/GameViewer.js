@@ -102,15 +102,15 @@ const GameViewer = () => {
         />
         <span className="title title-font"> in </span>
         <CustomDropdown
-          text={order ? 'Descending' : 'Ascending'}
-          choices={[true, false]}
+          text={order.label}
+          choices={orderChoices}
           onChange={handleOrderChange}
         />
         <span className="title title-font"> order </span>
       </div>
-        <Query 
-          query={ GET_GRAPH_DATA } 
-          variables={{ x: x.name, y: y, sort: sort, order: order ? -1 : 1}}
+        <Query
+          query={ GET_GRAPH_DATA }
+          variables={{ x: x.name, y: y, sort: sort, order: order.name ? -1 : 1}}
         >
         {({ data, loading, error }) => {
           if (loading) return <p>LOADING</p>;
