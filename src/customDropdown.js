@@ -8,7 +8,7 @@ const CustomDropdown = (props) => {
   }
 
   return (
-    <Dropdown>
+    <Dropdown style={{ display: "inline-block"  }}>
       <Dropdown.Toggle as={React.Button} variant="link" id="dropdown-basic">
         {props.text}
       </Dropdown.Toggle>

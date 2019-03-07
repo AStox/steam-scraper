@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { Bar } from 'react-chartjs-2';
 import CustomDropdown from './customDropdown';
+import './GameViewer.css';
 
 export const GET_GRAPH_DATA = gql`
   query GetGraphData($x: String!, $y: String!) {
@@ -49,18 +50,19 @@ const GameViewer = () => {
   return (
 
     <React.Fragment>
-      <span>
-        <CustomDropdown
-          text={x.label}
-          choices={xChoices}
-          onChange={handleXChange}
-        />
-        <CustomDropdown
-          text={y.label}
-          choices={yChoices}
-          onChange={handleYChange}
-        />
-      </span>
+      <span className="title">Show me the </span>
+      <CustomDropdown
+        text={y.label}
+        choices={yChoices}
+        onChange={handleYChange}
+      />
+      <span className="title"> for each </span>
+      <CustomDropdown
+        text={x.label}
+        choices={xChoices}
+        onChange={handleXChange}
+      />
+      <br/>
       <Query query={ GET_GRAPH_DATA } variables={{ x: x.name, y: y.name }}>
         {({ data, loading, error }) => {
           if (loading) return <p>LOADING</p>;
