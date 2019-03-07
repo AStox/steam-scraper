@@ -34,6 +34,24 @@ async function getIds(steamUri) {
   return ids;
 }
 
+async function getFollowers(appid) {
+  const uri = `https://steamcommunity.com/games/${appid}`;
+  const options = {
+    uri,
+    method: 'GET',
+    followRedirects: true,
+    muteHttpExceptions: true,
+    appid,
+    headers: {
+      Cookie: 'birthtime=28801; path=/; domain=steamcommunity.com',
+    },
+  };
+  const response = await rp(options);
+  const regex = />([\d,]+) Members</i;
+  const followers = parseInt(response.match(regex)[1].replace(/,/g, ''), 10);
+  return followers;
+}
+
 async function getGame(appid) {
   const uri = 'http://store.steampowered.com/api/appdetails?cc=us&appids='.concat(
     appid,
@@ -89,12 +107,15 @@ async function getGame(appid) {
   const publishers = [];
   publisher.forEach(elem => publishers.push({ name: elem }));
 
+  const followers = await getFollowers(appid);
+
   return {
     steam_id: steamAppId,
     name,
     coming_soon: comingSoon,
     release_date: releaseDate,
     review_count: reviewCount,
+    followers,
     is_free: isFree,
     full_price: fullPrice,
     genre: genres,
@@ -108,18 +129,14 @@ function CreateGameEntry(gameDetails) {
   if (gameDetails === null) {
     return;
   }
-  const game = new Game(gameDetails);
-  game.save((err) => {
+  const game = new Game(gameDetails, { upsert: true });
+  Game.updateOne(gameDetails, { upsert: true }, (err, raw) => {
     if (err) {
-      if (err.code === 11000) {
-        console.log(`AppId: ${gameDetails.steam_id} Already in DB`);
-        // TODO: update DB entry instead
-        return;
-      }
       console.log(err.message);
       return;
     }
     console.log('New Game: ' + game.steam_id);
+    console.log(raw);
   });
 }
 
@@ -136,7 +153,8 @@ async function loop(idsArr) {
 }
 
 connectToDB();
-getIds('https://store.steampowered.com/').then((ids) => {
+getIds(process.argv[2]).then((ids) => {
   console.log(`collected ${ids.length} ids`);
   loop(ids);
 });
+mongoose.disconnect();
