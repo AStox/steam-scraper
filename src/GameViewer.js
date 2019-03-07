@@ -47,37 +47,40 @@ const GameViewer = () => {
   const handleXChange = e => setX(e);
 
   return (
-    <Query query={ GET_GRAPH_DATA } variables={{ x: x.name, y: y.name }}>
-      {({ data, loading, error }) => {
-        if (loading) return <p>LOADING</p>;
-        if (error) return <p>{error.toString()}</p>;
-        const chartData = {
-          labels: data.graphData.map(datum => datum.xAxis),
-          datasets: [
-            {
-              label: `${x.label} by ${y.label}`,
-              data: data.graphData.map(datum => datum.yAxis),
-              borderWidth: 0,
-            },
-          ],
-        };
-        return (
-          <div>
-            <CustomDropdown
-              text={x.label}
-              choices={xChoices}
-              onChange={handleXChange}
-            />
-            <CustomDropdown
-              text={y.label}
-              choices={yChoices}
-              onChange={handleYChange}
-            />
-            <Bar data={chartData} width={100} height={50} />;
-          </div>
-        );
-      }}
-    </Query>
+
+    <React.Fragment>
+      <span>
+        <CustomDropdown
+          text={x.label}
+          choices={xChoices}
+          onChange={handleXChange}
+        />
+        <CustomDropdown
+          text={y.label}
+          choices={yChoices}
+          onChange={handleYChange}
+        />
+      </span>
+      <Query query={ GET_GRAPH_DATA } variables={{ x: x.name, y: y.name }}>
+        {({ data, loading, error }) => {
+          if (loading) return <p>LOADING</p>;
+          if (error) return <p>{error.toString()}</p>;
+          const chartData = {
+            labels: data.graphData.map(datum => datum.xAxis),
+            datasets: [
+              {
+                label: `${x.label} by ${y.label}`,
+                data: data.graphData.map(datum => datum.yAxis),
+                borderWidth: 0,
+              },
+            ],
+          };
+          return (
+              <Bar data={chartData} width={100} height={50} />
+          );
+        }}
+      </Query>
+    </React.Fragment>
   );
 };
 export default GameViewer;
