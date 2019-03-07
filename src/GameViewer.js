@@ -50,19 +50,21 @@ const GameViewer = () => {
   return (
 
     <React.Fragment>
-      <span className="title title-font">Show me the </span>
-      <CustomDropdown
-        text={y.label}
-        choices={yChoices}
-        onChange={handleYChange}
-      />
-      <span className="title title-font"> for each </span>
-      <CustomDropdown
-        text={x.label}
-        choices={xChoices}
-        onChange={handleXChange}
-      />
-      <br/>
+      <div className="title-container">
+        <span className="title title-font">Show me the </span>
+        <CustomDropdown
+          text={y.label}
+          choices={yChoices}
+          onChange={handleYChange}
+        />
+        <span className="title title-font"> for each </span>
+        <CustomDropdown
+          text={x.label}
+          choices={xChoices}
+          onChange={handleXChange}
+        />
+        <br/>
+      </div>
       <Query query={ GET_GRAPH_DATA } variables={{ x: x.name, y: y.name }}>
         {({ data, loading, error }) => {
           if (loading) return <p>LOADING</p>;
