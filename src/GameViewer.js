@@ -17,15 +17,15 @@ export const GET_GRAPH_DATA = gql`
 const xChoices = [
   {
     name: 'name',
-    label: 'Games',
+    label: 'Game',
   },
   {
     name: 'genre',
-    label: 'Genres',
+    label: 'Genre',
   },
   {
     name: 'tag',
-    label: 'Tags',
+    label: 'Tag',
   },
 ];
 const yChoices = [
@@ -97,12 +97,13 @@ const GameViewer = () => {
           choices={sortChoices}
           onChange={handleSortChange}
         />
-        <span className="title title-font">, </span>
+        <span className="title title-font"> in </span>
         <CustomDropdown
           text={order ? 'Descending' : 'Ascending'}
           choices={[true, false]}
           onChange={handleOrderChange}
         />
+        <span className="title title-font"> order </span>
       </div>
         <Query 
           query={ GET_GRAPH_DATA } 
