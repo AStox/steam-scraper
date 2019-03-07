@@ -6,7 +6,7 @@ import CustomDropdown from './customDropdown';
 import './GameViewer.css';
 
 export const GET_GRAPH_DATA = gql`
-  query GetGraphData($x: String!, $y: String!, $sort: String!, $order: Int!) {
+  query GetGraphData($x: String!, $y: Axis!, $sort: Axis!, $order: Int!) {
     graphData(x: $x, y: $y, sort: $sort, order: $order) {
       xAxis
       yAxis
@@ -32,36 +32,39 @@ const yChoices = [
   {
     name: 'review_count',
     label: 'Number of Reviews',
-    sum: true,
+    avg: false,
   },
   {
     name: 'full_price',
     label: 'Full Price',
-    sum: false,
+    avg: true,
   },
 ];
 const sortChoices = [
   {
     name: 'review_count',
     label: 'Number of Reviews',
+    avg: false,
   },
   {
     name: 'release_date',
     label: 'Release Date',
+    avg: false,
   },
   {
     name: 'full_price',
     label: 'Full Price',
+    avg: true,
   },
 ];
 const orderChoices = [
   {
     name: true,
-    label: 'Desc',
+    label: 'Descending',
   },
   {
     name: false,
-    label: 'Asc',
+    label: 'Ascending',
   },
 ];
 
@@ -107,7 +110,7 @@ const GameViewer = () => {
       </div>
         <Query 
           query={ GET_GRAPH_DATA } 
-          variables={{ x: x.name, y: y.name, sort: sort.name, order: order ? -1 : 1}}
+          variables={{ x: x.name, y: y, sort: sort, order: order ? -1 : 1}}
         >
         {({ data, loading, error }) => {
           if (loading) return <p>LOADING</p>;

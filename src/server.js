@@ -26,12 +26,18 @@ db.once('open', () => {
 const schema = buildSchema(`
   type Query {
     games: [Game]
-    graphData(x: String!, y: String!, sort: String!, order: Int!): [GraphPoint]
+    graphData(x: String!, y: Axis!, sort: Axis!, order: Int!): [GraphPoint]
   }
 
   type GraphPoint {
     xAxis: String,
-    yAxis: Int,
+    yAxis: Float,
+  }
+
+  input Axis {
+    name: String!,
+    label: String,
+    avg: Boolean,
   }
 
   type Game {
