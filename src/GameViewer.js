@@ -50,13 +50,13 @@ const GameViewer = () => {
   return (
 
     <React.Fragment>
-      <span className="title">Show me the </span>
+      <span className="title title-font">Show me the </span>
       <CustomDropdown
         text={y.label}
         choices={yChoices}
         onChange={handleYChange}
       />
-      <span className="title"> for each </span>
+      <span className="title title-font"> for each </span>
       <CustomDropdown
         text={x.label}
         choices={xChoices}

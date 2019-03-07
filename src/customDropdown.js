@@ -8,9 +8,9 @@ const CustomDropdown = (props) => {
   }
 
   return (
-    <Dropdown style={{ display: "inline-block"  }}>
+    <Dropdown style={{ display: 'inline-block', verticalAlign: 'top' }}>
       <Dropdown.Toggle as={React.Button} variant="link" id="dropdown-basic">
-        {props.text}
+        <span className="title-font">{props.text}</span>
       </Dropdown.Toggle>
 
       <Dropdown.Menu>

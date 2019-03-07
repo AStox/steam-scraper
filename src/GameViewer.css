@@ -1,5 +1,13 @@
+body {
+}
 .title {
   display: inline-block;
   padding-top:7px;
-  vertical-align:top;:w
+  font-size:24px;
+}
+
+.title-font {
+  font-family: 'montserrat';
+  font-weight:300;
+  font-size:24px;
 }
