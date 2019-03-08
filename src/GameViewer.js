@@ -135,8 +135,27 @@ const GameViewer = () => {
               },
             ],
           };
+          const chartOptions = {
+            maintainAspectRatio: false,
+            legend: {
+              display: false,
+            },
+            scales: {
+              xAxes: [{
+                gridLines: {
+                  display: false,
+                },
+                ticks: {
+                  autoSkip: true,
+                  autoSkipPadding: -270,
+                  minRotation: 70,
+                  maxRotation: 90,
+                },
+              }],
+            },
+          };
           return (
-              <Bar data={chartData} width={100} height={50} />
+            <Bar data={chartData} width={100} height={50} options={chartOptions}/>
           );
         }}
       </Query>
