@@ -8,7 +8,7 @@ const GameSchema = new Schema({
   coming_soon: { type: Boolean, required: true },
   release_date: { type: Date },
   review_count: { type: Number, required: true, default: 0 },
-  followers: { type: Number, required: true, default: 0 },
+  followers: { type: Number, required: true },
   is_free: { type: Boolean, required: true },
   full_price: { type: Number },
   genre: [

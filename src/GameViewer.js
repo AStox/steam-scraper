@@ -35,6 +35,11 @@ const yChoices = [
     avg: false,
   },
   {
+    name: 'followers',
+    label: 'Followers',
+    avg: false,
+  },
+  {
     name: 'full_price',
     label: 'Full Price',
     avg: true,
@@ -47,14 +52,19 @@ const sortChoices = [
     avg: false,
   },
   {
+    name: 'full_price',
+    label: 'Full Price',
+    avg: true,
+  },
+  {
     name: 'release_date',
     label: 'Release Date',
     avg: false,
   },
   {
-    name: 'full_price',
-    label: 'Full Price',
-    avg: true,
+    name: 'followers',
+    label: 'Followers',
+    avg: false,
   },
 ];
 const orderChoices = [

@@ -129,14 +129,16 @@ function CreateGameEntry(gameDetails) {
   if (gameDetails === null) {
     return;
   }
-  const game = new Game(gameDetails, { upsert: true });
-  Game.updateOne(gameDetails, { upsert: true }, (err, raw) => {
+  Game.updateOne({ steam_id: gameDetails.steam_id }, gameDetails, { upsert: true }, (err, raw) => {
     if (err) {
       console.log(err.message);
       return;
     }
-    console.log('New Game: ' + game.steam_id);
-    console.log(raw);
+    if (raw.nModified > 0) {
+      console.log(`Updated Game: ${gameDetails.steam_id}`);
+      return;
+    }
+    console.log(`New Game: ${gameDetails.steam_id}`);
   });
 }
 
@@ -156,5 +158,5 @@ connectToDB();
 getIds(process.argv[2]).then((ids) => {
   console.log(`collected ${ids.length} ids`);
   loop(ids);
-});
-mongoose.disconnect();
+}).catch(err => console.log(err));
+console.log("Probabaly Done...")

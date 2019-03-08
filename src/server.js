@@ -47,6 +47,7 @@ const schema = buildSchema(`
     coming_soon: String,
     release_date: String,
     review_count: Int,
+    followers: Int,
     is_free: String,
     full_price: String,
     genre: [Genre],
