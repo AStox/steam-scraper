@@ -8,8 +8,8 @@ import { Button } from 'react-bootstrap';
 import './GameViewer.css';
 
 export const GET_GRAPH_DATA = gql`
-  query GetGraphData($x: String!, $y: Axis!, $sort: Axis!, $order: Int!) {
-    graphData(x: $x, y: $y, sort: $sort, order: $order) {
+  query GetGraphData($x: String!, $y: Axis!, $sort: Axis!, $order: Int!, $filter: [String]) {
+    graphData(x: $x, y: $y, sort: $sort, order: $order, filter: $filter) {
       xAxis
       yAxis
     }

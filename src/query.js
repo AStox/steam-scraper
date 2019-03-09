@@ -1,6 +1,6 @@
 const Game = require('../models/game');
 
-const graphPointSimple = async (x, y, sort, order) => {
+const graphPointSimple = async (x, y, sort, order, filter) => {
   let data = await Game.aggregate([
     { $sort: { [`${sort.name}`]: order } },
   ]);
@@ -8,8 +8,16 @@ const graphPointSimple = async (x, y, sort, order) => {
   return data;
 };
 
-const graphPointNested = async (x, y, sort, order) => {
+const graphPointNested = async (x, y, sort, order, filter) => {
+  console.log(filter);
   let data = await Game.aggregate([
+    {
+      $match: {
+        [`${x}`]: {
+          $all: filter,
+        },
+      },
+    },
     {
       $unwind: {
         path: `$${x}`,
@@ -25,14 +33,13 @@ const graphPointNested = async (x, y, sort, order) => {
     },
     { $sort: { [`${sort.name}`]: order } },
   ]);
-  console.log(data);
   data = data.map(game => ({ xAxis: game._id, yAxis: game[y.name] }));
   return data;
 };
 
-exports.graphPoint = async (x, y, sort, order) => {
+exports.graphPoint = async (x, y, sort, order, filter) => {
   if (x === 'name') {
-    return graphPointSimple(x, y, sort, order);
+    return graphPointSimple(x, y, sort, order, filter);
   }
-  return graphPointNested(x, y, sort, order);
+  return graphPointNested(x, y, sort, order, filter);
 };
