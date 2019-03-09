@@ -3,6 +3,8 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { Bar } from 'react-chartjs-2';
 import CustomDropdown from './customDropdown';
+import RadioDropdown from './RadioDropdown';
+import { Button } from 'react-bootstrap';
 import './GameViewer.css';
 
 export const GET_GRAPH_DATA = gql`
@@ -78,15 +80,20 @@ const orderChoices = [
   },
 ];
 
+
 const GameViewer = () => {
+  const [graphData, setGraphData] = useState([]);
   const [x, setX] = useState(xChoices[0]);
   const [y, setY] = useState(yChoices[0]);
   const [sort, setSort] = useState(sortChoices[0]);
   const [order, setOrder] = useState(orderChoices[0]);
+  const [filter, setFilter] = useState([]);
   const handleYChange = e => setY(e);
   const handleXChange = e => setX(e);
   const handleSortChange = e => setSort(e);
   const handleOrderChange = e => setOrder(e);
+  const handleRadioClick = e => setFilter([...filter, e]);
+  const handleFilterClick = e => setFilter([...filter].filter(a => a != e));
 
   return (
     <React.Fragment>
@@ -117,14 +124,27 @@ const GameViewer = () => {
           onChange={handleOrderChange}
         />
         <span className="title title-font"> order </span>
+        <br/>
+        <span className="title title-font"> Filter by:  </span>
+        {filter.map(a => (
+          <Button key={a} variant="outline-primary" onClick={() => handleFilterClick(a)}>
+            {a}
+          </Button>
+        ))}
+        <RadioDropdown
+          text="+"
+          choices={graphData.map(a => a.xAxis).filter(a => !filter.includes(a))}
+          onClick={handleRadioClick}
+        />
       </div>
         <Query
           query={ GET_GRAPH_DATA }
-          variables={{ x: x.name, y: y, sort: sort, order: order.name ? -1 : 1}}
+          variables={{ x: x.name, y: y, sort: sort, order: order.name ? -1 : 1, filter: filter}}
         >
         {({ data, loading, error }) => {
           if (loading) return <p>LOADING</p>;
           if (error) return <p>{error.toString()}</p>;
+          setGraphData(data.graphData);
           const chartData = {
             labels: data.graphData.map(datum => datum.xAxis),
             datasets: [
