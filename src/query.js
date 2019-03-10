@@ -2,6 +2,11 @@ const Game = require('../models/game');
 
 const graphPointSimple = async (x, y, sort, order, filter) => {
   let data = await Game.aggregate([
+    {
+      $match: {
+        [`${x}.name`]: filter === undefined ? { $regex: /[a-zA-Z]*/ } : { $all: filter },
+      },
+    },
     { $sort: { [`${sort.name}`]: order } },
   ]);
   data = data.map(game => ({ xAxis: game[x], yAxis: game[y.name] }));
@@ -9,13 +14,10 @@ const graphPointSimple = async (x, y, sort, order, filter) => {
 };
 
 const graphPointNested = async (x, y, sort, order, filter) => {
-  console.log(filter);
   let data = await Game.aggregate([
     {
       $match: {
-        [`${x}`]: {
-          $all: filter,
-        },
+        [`${x}.name`]: filter === undefined ? { $regex: /[a-zA-Z]*/ } : { $all: filter },
       },
     },
     {

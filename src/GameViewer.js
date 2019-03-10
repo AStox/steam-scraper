@@ -131,11 +131,22 @@ const GameViewer = () => {
             {a}
           </Button>
         ))}
-        <RadioDropdown
-          text="+"
-          choices={graphData.map(a => a.xAxis).filter(a => !filter.includes(a))}
-          onClick={handleRadioClick}
-        />
+        <Query
+          query={ GET_GRAPH_DATA }
+          variables={{ x: x.name, y: y, sort: sort, order: order.name ? -1 : 1}}
+        >
+        {({ data, loading, error }) => {
+          if (loading) return <p>LOADING</p>;
+          if (error) return <p>{error.toString()}</p>;
+          return (
+          <RadioDropdown
+            text="+"
+            choices={data.graphData.map(a => a.xAxis).filter(a => !filter.includes(a))}
+            onClick={handleRadioClick}
+          />
+          );
+        }}
+        </Query>
       </div>
         <Query
           query={ GET_GRAPH_DATA }
