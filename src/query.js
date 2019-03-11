@@ -4,7 +4,7 @@ const graphPointSimple = async (x, y, sort, order, filter) => {
   let data = await Game.aggregate([ 
     {
       $match: {
-        'genre.name': !filter.length ? { $regex: /[a-zA-Z]*/i } : { $all: filter }
+        'genre.name': (filter === undefined || !filter.length) ? { $regex: /[a-zA-Z]*/i } : { $all: filter }
       }
     },
     { $sort: { [`${sort.name}`]: order } },
@@ -17,7 +17,7 @@ const graphPointNested = async (x, y, sort, order, filter) => {
   let data = await Game.aggregate([
     {
       $match: {
-        [`${x}.name`]: filter === undefined ? { $regex: /[a-zA-Z]*/ } : { $all: filter },
+        'genre.name': (filter === undefined || !filter.length) ? { $regex: /[a-zA-Z]*/i } : { $all: filter }
       },
     },
     {
