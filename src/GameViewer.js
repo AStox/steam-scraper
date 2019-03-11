@@ -133,7 +133,7 @@ const GameViewer = () => {
         ))}
         <Query
           query={ GET_GRAPH_DATA }
-          variables={{ x: x.name, y: y, sort: sort, order: order.name ? -1 : 1}}
+          variables={{ x: 'genre', y: y, sort: sort, order: order.name ? -1 : 1}}
         >
         {({ data, loading, error }) => {
           if (loading) return <p>LOADING</p>;
