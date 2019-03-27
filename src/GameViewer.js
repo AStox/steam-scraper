@@ -125,7 +125,7 @@ const GameViewer = () => {
         />
         <span className="title title-font"> order </span>
         <br/>
-        <span className="title title-font"> Filter by:  </span>
+        <span className="title title-font"> Filtered by:  </span>
         {filter.map(a => (
           <Button key={a} variant="outline-primary" onClick={() => handleFilterClick(a)}>
             {a}
